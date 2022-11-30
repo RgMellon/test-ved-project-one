@@ -46,10 +46,19 @@ describe('Query string to object', () => {
     });
   });
 
-  it('shound convert a query string of a single key-value pair to an object', () => {
+  it('should convert a query string of a single key-value pair to an object', () => {
     const qs = 'name=Renan';
     expect(parse(qs)).toEqual({
       name: 'Renan',
+    });
+  });
+
+  it('should convert a query string to an object taking care of comma separeted values', () => {
+    const qs = 'name=Renan&abilities=JS,TDD';
+
+    expect(parse(qs)).toEqual({
+      name: 'Renan',
+      abilities: ['JS', 'TDD'],
     });
   });
 });
