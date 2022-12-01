@@ -18,7 +18,11 @@ exports[`Cart checkout() should return an object with the total and the list of 
       "quantity": 3,
     },
   ],
-  "total": 196392,
+  "total": {
+    "amount": 196392,
+    "currency": "BRL",
+    "precision": 2,
+  },
 }
 `;
 
@@ -40,6 +44,10 @@ exports[`Cart checkout() should return an object with the total and the list of 
       "quantity": 3,
     },
   ],
-  "total": 196392,
+  "total": {
+    "amount": 196392,
+    "currency": "BRL",
+    "precision": 2,
+  },
 }
 `;
