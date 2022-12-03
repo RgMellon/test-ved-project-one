@@ -6,6 +6,8 @@ const Money = Dinero;
 Money.defaultCurrency = 'BRL';
 Money.defaultPrecision = 2;
 
+import { calculateDiscount } from './discount.utils';
+
 export default class Cart {
   items = [];
 
@@ -21,7 +23,14 @@ export default class Cart {
 
   getTotal() {
     return this.items.reduce((acc, item) => {
-      return acc.add(Money({ amount: item.quantity * item.product.price }));
+      const amount = Money({ amount: item.quantity * item.product.price });
+      let discount = Money({ amount: 0 });
+
+      if (item.conditional) {
+        discount = calculateDiscount(amount, item.quantity, item.conditional);
+      }
+
+      return acc.add(amount).subtract(discount);
     }, Money({ amount: 0 }));
   }
 
@@ -32,8 +41,10 @@ export default class Cart {
   summary() {
     const total = this.getTotal();
     const items = this.items;
+    const formatted = total.toFormat('$0,0.00');
 
     return {
+      formatted,
       total,
       items,
     };
@@ -45,7 +56,7 @@ export default class Cart {
     this.items = [];
 
     return {
-      total,
+      total: total.getAmount(),
       items,
     };
   }
